@@ -271,7 +271,7 @@ func request_{{.Method.Service.GetName}}_{{.Method.GetName}}_{{.Index}}(ctx cont
 	dec := marshaler.NewDecoder(req.Body)
 	for {
 		var protoReq {{.Method.RequestType.GoType .Method.Service.File.GoPkg.Path}}
-		err = dec.Decode(&protoReq)
+		err = dec.Decode(ctx, &protoReq)
 		if err == io.EOF {
 			break
 		}
@@ -331,7 +331,7 @@ var (
 	{{- if ne "" $protoReq }}
 	{{printf "%s" $protoReq }}
 	{{- end}}
-	if err := marshaler.NewDecoder(newReader()).Decode(&{{.Body.AssignableExpr "protoReq" .Method.Service.File.GoPkg.Path}}); err != nil && err != io.EOF  {
+	if err := marshaler.NewDecoder(newReader()).Decode(ctx, &{{.Body.AssignableExpr "protoReq" .Method.Service.File.GoPkg.Path}}); err != nil && err != io.EOF  {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	{{- if and $AllowPatchFeature (eq (.HTTPMethod) "PATCH") (.FieldMaskField) (not (eq "*" .GetBodyFieldPath)) }}
@@ -437,7 +437,7 @@ var (
 	dec := marshaler.NewDecoder(req.Body)
 	handleSend := func() error {
 		var protoReq {{.Method.RequestType.GoType .Method.Service.File.GoPkg.Path}}
-		err := dec.Decode(&protoReq)
+		err := dec.Decode(ctx, &protoReq)
 		if err == io.EOF {
 			return err
 		}
