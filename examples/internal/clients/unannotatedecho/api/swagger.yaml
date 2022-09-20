@@ -9,11 +9,11 @@ info:
   title: "Unannotated Echo"
   contact:
     name: "gRPC-Gateway project"
-    url: "https://github.com/grpc-ecosystem/grpc-gateway"
+    url: "https://github.com/monime-lab/grpc-gateway"
     email: "none@example.com"
   license:
     name: "BSD 3-Clause License"
-    url: "https://github.com/grpc-ecosystem/grpc-gateway/blob/master/LICENSE.txt"
+    url: "https://github.com/monime-lab/grpc-gateway/blob/master/LICENSE.txt"
   x-something-something: "yadda"
 tags:
 - name: "UnannotatedEchoService"
@@ -21,7 +21,7 @@ tags:
     \ place of the documentation comment!"
   externalDocs:
     description: "Find out more about UnannotatedEchoService"
-    url: "https://github.com/grpc-ecosystem/grpc-gateway"
+    url: "https://github.com/monime-lab/grpc-gateway"
 schemes:
 - "http"
 - "https"
@@ -141,7 +141,7 @@ paths:
             $ref: "#/definitions/rpcStatus"
       externalDocs:
         description: "Find out more Echo"
-        url: "https://github.com/grpc-ecosystem/grpc-gateway"
+        url: "https://github.com/monime-lab/grpc-gateway"
   /v1/example/echo/{id}/{num}:
     get:
       tags:
@@ -243,7 +243,7 @@ paths:
             $ref: "#/definitions/rpcStatus"
       externalDocs:
         description: "Find out more Echo"
-        url: "https://github.com/grpc-ecosystem/grpc-gateway"
+        url: "https://github.com/monime-lab/grpc-gateway"
   /v1/example/echo_body:
     post:
       tags:
@@ -419,7 +419,7 @@ definitions:
         $ref: "#/definitions/examplepbUnannotatedEmbedded"
     externalDocs:
       description: "Find out more about UnannotatedSimpleMessage"
-      url: "https://github.com/grpc-ecosystem/grpc-gateway"
+      url: "https://github.com/monime-lab/grpc-gateway"
     title: "A bit of everything"
     description: "A simple message with many types"
     example:
@@ -444,7 +444,7 @@ definitions:
           $ref: "#/definitions/protobufAny"
 externalDocs:
   description: "More about gRPC-Gateway"
-  url: "https://github.com/grpc-ecosystem/grpc-gateway"
+  url: "https://github.com/monime-lab/grpc-gateway"
 x-grpc-gateway-baz-list:
 - "one"
 - true

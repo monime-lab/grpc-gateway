@@ -79,7 +79,7 @@ func tokenize(path string) (tokens []string, verb string) {
 
 	l := len(tokens)
 	// See
-	// https://github.com/grpc-ecosystem/grpc-gateway/pull/1947#issuecomment-774523693 ;
+	// https://github.com/monime-lab/grpc-gateway/pull/1947#issuecomment-774523693 ;
 	// although normal and backwards-compat logic here is to use the last index
 	// of a colon, if the final segment is a variable followed by a colon, the
 	// part following the colon must be a verb. Hence if the previous token is

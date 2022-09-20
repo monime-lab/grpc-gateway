@@ -35,7 +35,7 @@ message ABitOfEverything {
             required: ["uuid", "int64_value", "double_value"]
         }
         external_docs: {
-            url: "https://github.com/grpc-ecosystem/grpc-gateway";
+            url: "https://github.com/monime-lab/grpc-gateway";
             description: "Find out more about ABitOfEverything";
         }
         example: "{\"uuid\": \"0cf361e1-4b44-483d-a159-54dabdf7e814\"}"
@@ -107,7 +107,9 @@ extensions: {
 }
 ```
 
-Please see this [a_bit_of_everything.proto](https://github.com/grpc-ecosystem/grpc-gateway/blob/master/examples/internal/proto/examplepb/a_bit_of_everything.proto) for examples of the options being used.
+Please see
+this [a_bit_of_everything.proto](https://github.com/monime-lab/grpc-gateway/blob/master/examples/internal/proto/examplepb/a_bit_of_everything.proto)
+for examples of the options being used.
 
 ## Using google.api.field_behavior
 
@@ -128,9 +130,11 @@ The following options are used in the Open API output:
 
 Google defines a couple of other options - `OPTIONAL`, `IMMUTABLE`, `INPUT_ONLY` -
 that are not currently used. `OPTIONAL` support is currently under discussion
-in [this issue](https://github.com/grpc-ecosystem/grpc-gateway/issues/669).
+in [this issue](https://github.com/monime-lab/grpc-gateway/issues/669).
 
-For `IMMUTABLE` and `INPUT_ONLY` fields, there is an [open issue](https://github.com/OAI/OpenAPI-Specification/issues/1497) in the Open API specification for adding functionality for write-once or immutable fields to the spec.
+For `IMMUTABLE` and `INPUT_ONLY` fields, there is
+an [open issue](https://github.com/OAI/OpenAPI-Specification/issues/1497) in the Open API specification for adding
+functionality for write-once or immutable fields to the spec.
 ## Using go templates in proto file comments
 
 Use [Go templates](https://golang.org/pkg/text/template/) in your proto file comments to allow more advanced documentation such as:
@@ -228,11 +232,15 @@ This is how the OpenAPI file would be rendered in [Postman](https://www.getpostm
 
 ![Screenshot OpenAPI file in Postman](../../assets/images/gotemplates/postman.png)
 
-For a more detailed example of a proto file that has Go, templates enabled, [see the examples](https://github.com/grpc-ecosystem/grpc-gateway/blob/master/examples/internal/proto/examplepb/use_go_template.proto).
+For a more detailed example of a proto file that has Go, templates
+enabled, [see the examples](https://github.com/monime-lab/grpc-gateway/blob/master/examples/internal/proto/examplepb/use_go_template.proto)
+.
 
 ## Other plugin options
 
-A comprehensive list of OpenAPI plugin options can be found [here](https://github.com/grpc-ecosystem/grpc-gateway/blob/master/protoc-gen-openapiv2/main.go). Options can be passed via `protoc` CLI:
+A comprehensive list of OpenAPI plugin options can be
+found [here](https://github.com/monime-lab/grpc-gateway/blob/master/protoc-gen-openapiv2/main.go). Options can be passed
+via `protoc` CLI:
 
 ```sh
 --openapiv2_out . --openapiv2_opt bar=baz,color=red
@@ -426,17 +434,23 @@ Output json:
 }
 ```
 
-For a more in depth example see [visibility_rule_echo_service.proto](https://github.com/grpc-ecosystem/grpc-gateway/blob/master/examples/internal/proto/examplepb/visibility_rule_echo_service.proto) and the following output files for different values of `visibility_restriction_selectors`:
-- [`visibility_restriction_selectors=PREVIEW`](https://github.com/grpc-ecosystem/grpc-gateway/blob/master/examples/internal/proto/examplepb/visibility_rule_preview_echo_service.swagger.json)
-- [`visibility_restriction_selectors=INTERNAL`](https://github.com/grpc-ecosystem/grpc-gateway/blob/master/examples/internal/proto/examplepb/visibility_rule_internal_echo_service.swagger.json)
-- [`visibility_restriction_selectors=INTERNAL,visibility_restriction_selectors=PREVIEW`](https://github.com/grpc-ecosystem/grpc-gateway/blob/master/examples/internal/proto/examplepb/visibility_rule_preview_and_internal_echo_service.swagger.json)
-- [Not set](https://github.com/grpc-ecosystem/grpc-gateway/blob/master/examples/internal/proto/examplepb/visibility_rule_none_echo_service.swagger.json)
+For a more in depth example
+see [visibility_rule_echo_service.proto](https://github.com/monime-lab/grpc-gateway/blob/master/examples/internal/proto/examplepb/visibility_rule_echo_service.proto)
+and the following output files for different values of `visibility_restriction_selectors`:
+
+- [`visibility_restriction_selectors=PREVIEW`](https://github.com/monime-lab/grpc-gateway/blob/master/examples/internal/proto/examplepb/visibility_rule_preview_echo_service.swagger.json)
+- [`visibility_restriction_selectors=INTERNAL`](https://github.com/monime-lab/grpc-gateway/blob/master/examples/internal/proto/examplepb/visibility_rule_internal_echo_service.swagger.json)
+- [`visibility_restriction_selectors=INTERNAL,visibility_restriction_selectors=PREVIEW`](https://github.com/monime-lab/grpc-gateway/blob/master/examples/internal/proto/examplepb/visibility_rule_preview_and_internal_echo_service.swagger.json)
+- [Not set](https://github.com/monime-lab/grpc-gateway/blob/master/examples/internal/proto/examplepb/visibility_rule_none_echo_service.swagger.json)
 
 ### Path parameters
 
-When defining HTTP bindings with path parameters that contain multiple path segments, as suggested by the [Google AIPs](https://google.aip.dev/), the path parameter names are numbered to avoid generating duplicate paths in the OpenAPI file.
+When defining HTTP bindings with path parameters that contain multiple path segments, as suggested by
+the [Google AIPs](https://google.aip.dev/), the path parameter names are numbered to avoid generating duplicate paths in
+the OpenAPI file.
 
 For example, consider:
+
 ```protobuf
 service LibraryService {
   rpc GetShelf(GetShelfRequest) returns (Shelf) {

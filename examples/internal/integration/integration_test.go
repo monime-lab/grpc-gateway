@@ -49,7 +49,7 @@ func TestEcho(t *testing.T) {
 			testEchoOneof2(t, 8088, apiPrefix, "application/json")
 			testEchoBody(t, 8088, apiPrefix, true)
 			testEchoBody(t, 8088, apiPrefix, false)
-			// Use SendHeader/SetTrailer without gRPC server https://github.com/grpc-ecosystem/grpc-gateway/issues/517#issuecomment-684625645
+			// Use SendHeader/SetTrailer without gRPC server https://github.com/monime-lab/grpc-gateway/issues/517#issuecomment-684625645
 			testEchoBody(t, 8089, apiPrefix, true)
 			testEchoBody(t, 8089, apiPrefix, false)
 		})

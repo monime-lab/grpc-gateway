@@ -5,12 +5,12 @@
     "version": "1.0",
     "contact": {
       "name": "gRPC-Gateway project",
-      "url": "https://github.com/grpc-ecosystem/grpc-gateway",
+      "url": "https://github.com/monime-lab/grpc-gateway",
       "email": "none@example.com"
     },
     "license": {
       "name": "BSD 3-Clause License",
-      "url": "https://github.com/grpc-ecosystem/grpc-gateway/blob/master/LICENSE.txt"
+      "url": "https://github.com/monime-lab/grpc-gateway/blob/master/LICENSE.txt"
     },
     "x-something-something": "yadda"
   },
@@ -20,7 +20,7 @@
       "description": "ABitOfEverythingService description -- which should not be used in place of the documentation comment!",
       "externalDocs": {
         "description": "Find out more about EchoService",
-        "url": "https://github.com/grpc-ecosystem/grpc-gateway"
+        "url": "https://github.com/monime-lab/grpc-gateway"
       }
     },
     {
@@ -168,7 +168,7 @@
         ],
         "externalDocs": {
           "description": "Find out more Echo",
-          "url": "https://github.com/grpc-ecosystem/grpc-gateway"
+          "url": "https://github.com/monime-lab/grpc-gateway"
         }
       }
     },
@@ -1740,7 +1740,7 @@
         "security": [],
         "externalDocs": {
           "description": "Find out more about GetQuery",
-          "url": "https://github.com/grpc-ecosystem/grpc-gateway"
+          "url": "https://github.com/monime-lab/grpc-gateway"
         }
       }
     },
@@ -2409,7 +2409,7 @@
               "title": "A bit of everything",
               "externalDocs": {
                 "description": "Find out more about ABitOfEverything",
-                "url": "https://github.com/grpc-ecosystem/grpc-gateway"
+                "url": "https://github.com/monime-lab/grpc-gateway"
               },
               "required": [
                 "int64Value",
@@ -4668,7 +4668,7 @@
               "title": "A bit of everything",
               "externalDocs": {
                 "description": "Find out more about ABitOfEverything",
-                "url": "https://github.com/grpc-ecosystem/grpc-gateway"
+                "url": "https://github.com/monime-lab/grpc-gateway"
               },
               "required": [
                 "uuid",
@@ -5255,7 +5255,7 @@
               "title": "A bit of everything",
               "externalDocs": {
                 "description": "Find out more about ABitOfEverything",
-                "url": "https://github.com/grpc-ecosystem/grpc-gateway"
+                "url": "https://github.com/monime-lab/grpc-gateway"
               },
               "required": [
                 "int64Value",
@@ -5548,7 +5548,7 @@
               "title": "A bit of everything",
               "externalDocs": {
                 "description": "Find out more about ABitOfEverything",
-                "url": "https://github.com/grpc-ecosystem/grpc-gateway"
+                "url": "https://github.com/monime-lab/grpc-gateway"
               },
               "required": [
                 "int64Value",
@@ -5641,7 +5641,7 @@
         ],
         "externalDocs": {
           "description": "Find out more Echo",
-          "url": "https://github.com/grpc-ecosystem/grpc-gateway"
+          "url": "https://github.com/monime-lab/grpc-gateway"
         }
       },
       "post": {
@@ -5710,7 +5710,7 @@
         ],
         "externalDocs": {
           "description": "Find out more Echo",
-          "url": "https://github.com/grpc-ecosystem/grpc-gateway"
+          "url": "https://github.com/monime-lab/grpc-gateway"
         }
       }
     },
@@ -6351,7 +6351,7 @@
                   "title": "A bit of everything",
                   "externalDocs": {
                     "description": "Find out more about ABitOfEverything",
-                    "url": "https://github.com/grpc-ecosystem/grpc-gateway"
+                    "url": "https://github.com/monime-lab/grpc-gateway"
                   },
                   "x-a-bit-of-everything-foo": "bar"
                 },
@@ -6696,7 +6696,7 @@
       "title": "A bit of everything",
       "externalDocs": {
         "description": "Find out more about ABitOfEverything",
-        "url": "https://github.com/grpc-ecosystem/grpc-gateway"
+        "url": "https://github.com/monime-lab/grpc-gateway"
       },
       "required": [
         "uuid",
@@ -7052,7 +7052,7 @@
   ],
   "externalDocs": {
     "description": "More about gRPC-Gateway",
-    "url": "https://github.com/grpc-ecosystem/grpc-gateway"
+    "url": "https://github.com/monime-lab/grpc-gateway"
   },
   "x-grpc-gateway-baz-list": [
     "one",

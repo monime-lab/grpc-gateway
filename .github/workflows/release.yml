@@ -64,7 +64,7 @@ jobs:
       - uses: docker/build-push-action@c84f38281176d4c9cdb1626ffafcd6b3911b5d94 # tag=v3
         with:
           push: true
-          tags: plugins.buf.build/grpc-ecosystem/grpc-gateway:${{ github.ref_name }}-1
+          tags: plugins.buf.build/monime/grpc-gateway:${{ github.ref_name }}-1
           context: .github/plugins/protoc-gen-grpc-gateway
           platforms: linux/amd64
           build-args: |

@@ -155,7 +155,7 @@ func requireGenerate(
 }
 
 func TestGeneratedYAMLIndent(t *testing.T) {
-	// It tests https://github.com/grpc-ecosystem/grpc-gateway/issues/2745.
+	// It tests https://github.com/monime-lab/grpc-gateway/issues/2745.
 	const in = `
 	file_to_generate: "exampleproto/v1/exampleproto.proto"
 	parameter: "output_format=yaml,allow_delete_body=true"

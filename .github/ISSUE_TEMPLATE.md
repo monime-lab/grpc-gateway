@@ -1,6 +1,6 @@
 # The gRPC-Gateway project is maintained by volunteers in their spare time. Please follow these troubleshooting steps before submitting an issue.
 
-- [ ] Check if your issue has already been reported (https://github.com/grpc-ecosystem/grpc-gateway/issues).
+- [ ] Check if your issue has already been reported (https://github.com/monime-lab/grpc-gateway/issues).
 - [ ] Update your protoc to the [latest version](https://github.com/google/protobuf/releases).
 - [ ] Update your copy of the `grpc-gateway` library to the latest version from github:
   ```sh

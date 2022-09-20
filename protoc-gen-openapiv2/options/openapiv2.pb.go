@@ -316,12 +316,12 @@ func (SecurityScheme_Flow) EnumDescriptor() ([]byte, []int) {
 //      description: "";
 //      contact: {
 //        name: "gRPC-Gateway project";
-//        url: "https://github.com/grpc-ecosystem/grpc-gateway";
+//        url: "https://github.com/monime-lab/grpc-gateway";
 //        email: "none@example.com";
 //      };
 //      license: {
 //        name: "BSD 3-Clause License";
-//        url: "https://github.com/grpc-ecosystem/grpc-gateway/blob/master/LICENSE.txt";
+//        url: "https://github.com/monime-lab/grpc-gateway/blob/master/LICENSE.txt";
 //      };
 //    };
 //    schemes: HTTPS;
@@ -883,12 +883,12 @@ func (x *Response) GetExtensions() map[string]*structpb.Value {
 //      description: "";
 //      contact: {
 //        name: "gRPC-Gateway project";
-//        url: "https://github.com/grpc-ecosystem/grpc-gateway";
+//        url: "https://github.com/monime-lab/grpc-gateway";
 //        email: "none@example.com";
 //      };
 //      license: {
 //        name: "BSD 3-Clause License";
-//        url: "https://github.com/grpc-ecosystem/grpc-gateway/blob/master/LICENSE.txt";
+//        url: "https://github.com/monime-lab/grpc-gateway/blob/master/LICENSE.txt";
 //      };
 //    };
 //    ...
@@ -1008,7 +1008,7 @@ func (x *Info) GetExtensions() map[string]*structpb.Value {
 //      ...
 //      contact: {
 //        name: "gRPC-Gateway project";
-//        url: "https://github.com/grpc-ecosystem/grpc-gateway";
+//        url: "https://github.com/monime-lab/grpc-gateway";
 //        email: "none@example.com";
 //      };
 //      ...
@@ -1095,7 +1095,7 @@ func (x *Contact) GetEmail() string {
 //      ...
 //      license: {
 //        name: "BSD 3-Clause License";
-//        url: "https://github.com/grpc-ecosystem/grpc-gateway/blob/master/LICENSE.txt";
+//        url: "https://github.com/monime-lab/grpc-gateway/blob/master/LICENSE.txt";
 //      };
 //      ...
 //    };
@@ -1170,7 +1170,7 @@ func (x *License) GetUrl() string {
 //    ...
 //    external_docs: {
 //      description: "More about gRPC-Gateway";
-//      url: "https://github.com/grpc-ecosystem/grpc-gateway";
+//      url: "https://github.com/monime-lab/grpc-gateway";
 //    }
 //    ...
 //  };

@@ -7,14 +7,17 @@ parent: Development
 
 # gRPC-Gateway v2 migration guide
 
-This guide is supposed to help users of the gateway migrate from v1 to v2. See [the original issue](https://github.com/grpc-ecosystem/grpc-gateway/issues/1223) for detailed information on all changes that were made specifically to v2.
+This guide is supposed to help users of the gateway migrate from v1 to v2.
+See [the original issue](https://github.com/monime-lab/grpc-gateway/issues/1223) for detailed information on all changes
+that were made specifically to v2.
 
 The following behavioural defaults have been changed:
 
 ## protoc-gen-swagger has been renamed protoc-gen-openapiv2
 
-See [the original issue](https://github.com/grpc-ecosystem/grpc-gateway/issues/675)
-for more information. Apart from the new name, the only real difference to users will be a slightly different proto annotation:
+See [the original issue](https://github.com/monime-lab/grpc-gateway/issues/675)
+for more information. Apart from the new name, the only real difference to users will be a slightly different proto
+annotation:
 
 ```protobuf
 import "protoc-gen-openapiv2/options/annotations.proto";
@@ -56,12 +59,13 @@ It would now look like this:
 example: "{\"uuid\": \"0cf361e1-4b44-483d-a159-54dabdf7e814\"}"
 ```
 
-See [a_bit_of_everything.proto](https://github.com/grpc-ecosystem/grpc-gateway/blob/master/examples/internal/proto/examplepb/a_bit_of_everything.proto) in the example protos for more examples.
+See [a_bit_of_everything.proto](https://github.com/monime-lab/grpc-gateway/blob/master/examples/internal/proto/examplepb/a_bit_of_everything.proto)
+in the example protos for more examples.
 
 ## We now use the camelCase JSON names by default
 
-See [the original issue](https://github.com/grpc-ecosystem/grpc-gateway/issues/375) and
-[original pull request](https://github.com/grpc-ecosystem/grpc-gateway/pull/540) for more information.
+See [the original issue](https://github.com/monime-lab/grpc-gateway/issues/375) and
+[original pull request](https://github.com/monime-lab/grpc-gateway/pull/540) for more information.
 
 If you want to revert to the old behaviour, configure a custom marshaler with `UseProtoNames: true`:
 
@@ -91,7 +95,7 @@ If using the Bazel rule, set `json_names_for_fields=False`.
 
 ## We now emit default values for all fields
 
-See [the original issue](https://github.com/grpc-ecosystem/grpc-gateway/issues/233)
+See [the original issue](https://github.com/monime-lab/grpc-gateway/issues/233)
 for more information.
 
 If you want to revert to the old behaviour, configure a custom marshaler with
@@ -155,9 +159,11 @@ mux := runtime.NewServeMux(
 ## WithLastMatchWins and allow_colon_final_segments=true is now default behaviour
 
 If you were previously specifying these, please remove them, as this is now
-the default behaviour. See [the original issue](https://github.com/grpc-ecosystem/grpc-gateway/issues/224) for more information.
+the default behaviour. See [the original issue](https://github.com/monime-lab/grpc-gateway/issues/224) for more
+information.
 
-There is no workaround for this, as we considered it a correct interpretation of the spec. If this breaks your application, carefully consider the order in which you define your services.
+There is no workaround for this, as we considered it a correct interpretation of the spec. If this breaks your
+application, carefully consider the order in which you define your services.
 
 ## Error handling configuration has been overhauled
 
@@ -165,4 +171,7 @@ There is no workaround for this, as we considered it a correct interpretation of
 
 ## Default query parameter parsing behaviour change
 
-The default behaviour for query parameter parsing has changed to return an `InvalidArgument` (`400 Bad Request`) error when more than one of the same matching query parameters is parsed. Previously, it would log but not return an error, using the first query parameter that matched and ignoring any others. See [the original issue](https://github.com/grpc-ecosystem/grpc-gateway/issues/2632) for more information.
+The default behaviour for query parameter parsing has changed to return an `InvalidArgument` (`400 Bad Request`) error
+when more than one of the same matching query parameters is parsed. Previously, it would log but not return an error,
+using the first query parameter that matched and ignoring any others.
+See [the original issue](https://github.com/monime-lab/grpc-gateway/issues/2632) for more information.

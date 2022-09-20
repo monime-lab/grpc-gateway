@@ -29,12 +29,12 @@ enum Scheme {
 //      description: "";
 //      contact: {
 //        name: "gRPC-Gateway project";
-//        url: "https://github.com/grpc-ecosystem/grpc-gateway";
+//        url: "https://github.com/monime-lab/grpc-gateway";
 //        email: "none@example.com";
 //      };
 //      license: {
 //        name: "BSD 3-Clause License";
-//        url: "https://github.com/grpc-ecosystem/grpc-gateway/blob/master/LICENSE.txt";
+//        url: "https://github.com/monime-lab/grpc-gateway/blob/master/LICENSE.txt";
 //      };
 //    };
 //    schemes: HTTPS;
@@ -251,12 +251,12 @@ message Response {
 //      description: "";
 //      contact: {
 //        name: "gRPC-Gateway project";
-//        url: "https://github.com/grpc-ecosystem/grpc-gateway";
+//        url: "https://github.com/monime-lab/grpc-gateway";
 //        email: "none@example.com";
 //      };
 //      license: {
 //        name: "BSD 3-Clause License";
-//        url: "https://github.com/grpc-ecosystem/grpc-gateway/blob/master/LICENSE.txt";
+//        url: "https://github.com/monime-lab/grpc-gateway/blob/master/LICENSE.txt";
 //      };
 //    };
 //    ...
@@ -291,7 +291,7 @@ message Info {
 //      ...
 //      contact: {
 //        name: "gRPC-Gateway project";
-//        url: "https://github.com/grpc-ecosystem/grpc-gateway";
+//        url: "https://github.com/monime-lab/grpc-gateway";
 //        email: "none@example.com";
 //      };
 //      ...
@@ -321,7 +321,7 @@ message Contact {
 //      ...
 //      license: {
 //        name: "BSD 3-Clause License";
-//        url: "https://github.com/grpc-ecosystem/grpc-gateway/blob/master/LICENSE.txt";
+//        url: "https://github.com/monime-lab/grpc-gateway/blob/master/LICENSE.txt";
 //      };
 //      ...
 //    };
@@ -346,7 +346,7 @@ message License {
 //    ...
 //    external_docs: {
 //      description: "More about gRPC-Gateway";
-//      url: "https://github.com/grpc-ecosystem/grpc-gateway";
+//      url: "https://github.com/monime-lab/grpc-gateway";
 //    }
 //    ...
 //  };

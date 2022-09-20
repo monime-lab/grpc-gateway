@@ -390,7 +390,7 @@ def go_repositories():
     )
     go_repository(
         name = "com_github_grpc_ecosystem_grpc_gateway",
-        importpath = "github.com/grpc-ecosystem/grpc-gateway",
+        importpath = "github.com/monime-lab/grpc-gateway",
         sum = "h1:gmcG1KaJ57LophUzW0Hy8NmPhnMZb4M0+kPpLofRdBo=",
         version = "v1.16.0",
     )

@@ -47,7 +47,7 @@ func TestLoadFile(t *testing.T) {
 	fd := loadFile(t, reg, `
 		name: 'example.proto'
 		package: 'example'
-		options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example' >
+		options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example' >
 		message_type <
 			name: 'ExampleMessage'
 			field <
@@ -64,7 +64,7 @@ func TestLoadFile(t *testing.T) {
 		t.Errorf("reg.files[%q] = nil; want non-nil", "example.proto")
 		return
 	}
-	wantPkg := GoPackage{Path: "github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example", Name: "example"}
+	wantPkg := GoPackage{Path: "github.com/monime-lab/grpc-gateway/runtime/internal/example", Name: "example"}
 	if got, want := file.GoPkg, wantPkg; got != want {
 		t.Errorf("file.GoPkg = %#v; want %#v", got, want)
 	}
@@ -104,7 +104,7 @@ func TestLoadFileNestedPackage(t *testing.T) {
 	loadFile(t, reg, `
 		name: 'example.proto'
 		package: 'example.nested.nested2'
-		options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example.nested.nested2' >
+		options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example.nested.nested2' >
 	`)
 
 	file := reg.files["example.proto"]
@@ -112,7 +112,7 @@ func TestLoadFileNestedPackage(t *testing.T) {
 		t.Errorf("reg.files[%q] = nil; want non-nil", "example.proto")
 		return
 	}
-	wantPkg := GoPackage{Path: "github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example.nested.nested2", Name: "example_nested_nested2"}
+	wantPkg := GoPackage{Path: "github.com/monime-lab/grpc-gateway/runtime/internal/example.nested.nested2", Name: "example_nested_nested2"}
 	if got, want := file.GoPkg, wantPkg; got != want {
 		t.Errorf("file.GoPkg = %#v; want %#v", got, want)
 	}
@@ -123,7 +123,7 @@ func TestLoadFileWithDir(t *testing.T) {
 	loadFile(t, reg, `
 		name: 'path/to/example.proto'
 		package: 'example'
-		options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example' >
+		options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example' >
 	`)
 
 	file := reg.files["path/to/example.proto"]
@@ -131,7 +131,7 @@ func TestLoadFileWithDir(t *testing.T) {
 		t.Errorf("reg.files[%q] = nil; want non-nil", "example.proto")
 		return
 	}
-	wantPkg := GoPackage{Path: "github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example", Name: "example"}
+	wantPkg := GoPackage{Path: "github.com/monime-lab/grpc-gateway/runtime/internal/example", Name: "example"}
 	if got, want := file.GoPkg, wantPkg; got != want {
 		t.Errorf("file.GoPkg = %#v; want %#v", got, want)
 	}
@@ -141,7 +141,7 @@ func TestLoadFileWithoutPackage(t *testing.T) {
 	reg := NewRegistry()
 	loadFile(t, reg, `
 		name: 'path/to/example_file.proto'
-		options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example_file' >
+		options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example_file' >
 	`)
 
 	file := reg.files["path/to/example_file.proto"]
@@ -149,7 +149,7 @@ func TestLoadFileWithoutPackage(t *testing.T) {
 		t.Errorf("reg.files[%q] = nil; want non-nil", "example.proto")
 		return
 	}
-	wantPkg := GoPackage{Path: "github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example_file", Name: "example_file"}
+	wantPkg := GoPackage{Path: "github.com/monime-lab/grpc-gateway/runtime/internal/example_file", Name: "example_file"}
 	if got, want := file.GoPkg, wantPkg; got != want {
 		t.Errorf("file.GoPkg = %#v; want %#v", got, want)
 	}
@@ -162,7 +162,7 @@ func TestLoadFileWithMapping(t *testing.T) {
 	}, `
 		name: 'path/to/example.proto'
 		package: 'example'
-		options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example' >
+		options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example' >
 	`)
 
 	file := reg.files["path/to/example.proto"]
@@ -181,12 +181,12 @@ func TestLoadFileWithPackageNameCollision(t *testing.T) {
 	loadFile(t, reg, `
 		name: 'path/to/another.proto'
 		package: 'example'
-		options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example' >
+		options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example' >
 	`)
 	loadFile(t, reg, `
 		name: 'path/to/example.proto'
 		package: 'example'
-		options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example' >
+		options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example' >
 	`)
 	if err := reg.ReserveGoPackageAlias("ioutil", "io/ioutil"); err != nil {
 		t.Fatalf("reg.ReserveGoPackageAlias(%q) failed with %v; want success", "ioutil", err)
@@ -194,7 +194,7 @@ func TestLoadFileWithPackageNameCollision(t *testing.T) {
 	loadFile(t, reg, `
 		name: 'path/to/ioutil.proto'
 		package: 'ioutil'
-		options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/ioutil' >
+		options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/ioutil' >
 	`)
 
 	file := reg.files["path/to/another.proto"]
@@ -202,7 +202,7 @@ func TestLoadFileWithPackageNameCollision(t *testing.T) {
 		t.Errorf("reg.files[%q] = nil; want non-nil", "path/to/another.proto")
 		return
 	}
-	wantPkg := GoPackage{Path: "github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example", Name: "example"}
+	wantPkg := GoPackage{Path: "github.com/monime-lab/grpc-gateway/runtime/internal/example", Name: "example"}
 	if got, want := file.GoPkg, wantPkg; got != want {
 		t.Errorf("file.GoPkg = %#v; want %#v", got, want)
 	}
@@ -212,7 +212,7 @@ func TestLoadFileWithPackageNameCollision(t *testing.T) {
 		t.Errorf("reg.files[%q] = nil; want non-nil", "path/to/example.proto")
 		return
 	}
-	wantPkg = GoPackage{Path: "github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example", Name: "example", Alias: ""}
+	wantPkg = GoPackage{Path: "github.com/monime-lab/grpc-gateway/runtime/internal/example", Name: "example", Alias: ""}
 	if got, want := file.GoPkg, wantPkg; got != want {
 		t.Errorf("file.GoPkg = %#v; want %#v", got, want)
 	}
@@ -222,7 +222,7 @@ func TestLoadFileWithPackageNameCollision(t *testing.T) {
 		t.Errorf("reg.files[%q] = nil; want non-nil", "path/to/ioutil.proto")
 		return
 	}
-	wantPkg = GoPackage{Path: "github.com/grpc-ecosystem/grpc-gateway/runtime/internal/ioutil", Name: "ioutil", Alias: "ioutil_0"}
+	wantPkg = GoPackage{Path: "github.com/monime-lab/grpc-gateway/runtime/internal/ioutil", Name: "ioutil", Alias: "ioutil_0"}
 	if got, want := file.GoPkg, wantPkg; got != want {
 		t.Errorf("file.GoPkg = %#v; want %#v", got, want)
 	}
@@ -235,11 +235,11 @@ func TestLoadFileWithIdenticalGoPkg(t *testing.T) {
 	}, `
 		name: 'path/to/another.proto'
 		package: 'example'
-		options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example' >
+		options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example' >
 	`, `
 		name: 'path/to/example.proto'
 		package: 'example'
-		options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example' >
+		options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example' >
 	`)
 
 	file := reg.files["path/to/example.proto"]
@@ -270,7 +270,7 @@ func TestLookupMsgWithoutPackage(t *testing.T) {
 	reg := NewRegistry()
 	fd := loadFile(t, reg, `
 		name: 'example.proto'
-		options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example' >
+		options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example' >
 		message_type <
 			name: 'ExampleMessage'
 			field <
@@ -297,7 +297,7 @@ func TestLookupMsgWithNestedPackage(t *testing.T) {
 	fd := loadFile(t, reg, `
 		name: 'example.proto'
 		package: 'nested.nested2.mypackage'
-		options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example' >
+		options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example' >
 		message_type <
 			name: 'ExampleMessage'
 			field <
@@ -379,7 +379,7 @@ func TestLoadWithInconsistentTargetPackage(t *testing.T) {
 				file_to_generate: 'b.proto'
 				proto_file <
 					name: 'a.proto'
-					options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example.foo' >
+					options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example.foo' >
 					message_type < name: 'A' >
 					service <
 						name: "AService"
@@ -395,7 +395,7 @@ func TestLoadWithInconsistentTargetPackage(t *testing.T) {
 				>
 				proto_file <
 					name: 'b.proto'
-					options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example.foo' >
+					options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example.foo' >
 					message_type < name: 'B' >
 					service <
 						name: "BService"
@@ -420,7 +420,7 @@ func TestLoadWithInconsistentTargetPackage(t *testing.T) {
 				proto_file <
 					name: 'a.proto'
 					package: 'example.foo'
-					options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example.foo' >
+					options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example.foo' >
 					message_type < name: 'A' >
 					service <
 						name: "AService"
@@ -437,7 +437,7 @@ func TestLoadWithInconsistentTargetPackage(t *testing.T) {
 				proto_file <
 					name: 'b.proto'
 					package: 'example.foo'
-					options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example.foo' >
+					options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example.foo' >
 					message_type < name: 'B' >
 					service <
 						name: "BService"
@@ -515,7 +515,7 @@ func TestUnboundExternalHTTPRules(t *testing.T) {
 	loadFile(t, reg, `
 		name: "path/to/example.proto",
 		package: "example"
-		options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example' >
+		options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example' >
 		message_type <
 			name: "StringMessage"
 			field <
@@ -542,7 +542,7 @@ func TestRegisterOpenAPIOptions(t *testing.T) {
 	proto_file <
 		name: 'a.proto'
 		package: 'example.foo'
-		options < go_package: 'github.com/grpc-ecosystem/grpc-gateway/runtime/internal/example' >
+		options < go_package: 'github.com/monime-lab/grpc-gateway/runtime/internal/example' >
 		message_type <
 			name: 'ExampleMessage'
 			field <
