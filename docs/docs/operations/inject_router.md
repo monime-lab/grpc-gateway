@@ -18,8 +18,8 @@ import (
 	"context"
 	"net/http"
 
-	pb "github.com/grpc-ecosystem/grpc-gateway/v2/examples/internal/helloworld"
-	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	pb "github.com/monime-lab/grpc-gateway/v2/examples/internal/helloworld"
+	"github.com/monime-lab/grpc-gateway/v2/runtime"
 )
 
 func main() {

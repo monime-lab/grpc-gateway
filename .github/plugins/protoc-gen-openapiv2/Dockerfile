@@ -4,7 +4,7 @@ ARG RELEASE_VERSION
 
 # Buf plugins must be built for linux/amd64
 ENV GOOS=linux GOARCH=amd64 CGO_ENABLED=0
-RUN go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@${RELEASE_VERSION}
+RUN go install github.com/monime-lab/grpc-gateway/v2/protoc-gen-openapiv2@${RELEASE_VERSION}
 
 FROM scratch
 

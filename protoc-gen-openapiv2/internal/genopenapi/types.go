@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/grpc-ecosystem/grpc-gateway/v2/internal/descriptor"
+	"github.com/monime-lab/grpc-gateway/v2/internal/descriptor"
 )
 
 type param struct {
