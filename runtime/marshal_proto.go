@@ -19,7 +19,7 @@ func (*ProtoMarshaller) ContentType(_ interface{}) string {
 }
 
 // Marshal marshals "value" into Proto
-func (*ProtoMarshaller) Marshal(ctx context.Context, value interface{}) ([]byte, error) {
+func (*ProtoMarshaller) Marshal(_ context.Context, value interface{}) ([]byte, error) {
 	message, ok := value.(proto.Message)
 	if !ok {
 		return nil, errors.New("unable to marshal non proto field")
@@ -28,7 +28,7 @@ func (*ProtoMarshaller) Marshal(ctx context.Context, value interface{}) ([]byte,
 }
 
 // Unmarshal unmarshals proto "data" into "value"
-func (*ProtoMarshaller) Unmarshal(context context.Context, data []byte, value interface{}) error {
+func (*ProtoMarshaller) Unmarshal(_ context.Context, data []byte, value interface{}) error {
 	message, ok := value.(proto.Message)
 	if !ok {
 		return errors.New("unable to unmarshal non proto field")
