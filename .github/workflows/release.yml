@@ -51,7 +51,7 @@ jobs:
       - uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b # tag=v2
         with:
           registry: plugins.buf.build
-          username: grpcgatewaybot
+          username: deploybot299
           password: ${{ secrets.BUF_TOKEN }}
       - name: Set protobuf-version
         run: echo ::set-output name=version::$(go list -m -f '{{.Version}}' google.golang.org/protobuf)
