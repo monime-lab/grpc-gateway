@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -29,22 +30,22 @@ func (*JSONPb) ContentType(_ interface{}) string {
 }
 
 // Marshal marshals "v" into JSON.
-func (j *JSONPb) Marshal(v interface{}) ([]byte, error) {
+func (j *JSONPb) Marshal(ctx context.Context, v interface{}) ([]byte, error) {
 	if _, ok := v.(proto.Message); !ok {
-		return j.marshalNonProtoField(v)
+		return j.marshalNonProtoField(ctx, v)
 	}
 
 	var buf bytes.Buffer
-	if err := j.marshalTo(&buf, v); err != nil {
+	if err := j.marshalTo(ctx, &buf, v); err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
 
-func (j *JSONPb) marshalTo(w io.Writer, v interface{}) error {
+func (j *JSONPb) marshalTo(ctx context.Context, w io.Writer, v interface{}) error {
 	p, ok := v.(proto.Message)
 	if !ok {
-		buf, err := j.marshalNonProtoField(v)
+		buf, err := j.marshalNonProtoField(ctx, v)
 		if err != nil {
 			return err
 		}
@@ -70,7 +71,7 @@ var (
 // it is only capable of marshaling non-message field values of protobuf,
 // i.e. primitive types, enums; pointers to primitives or enums; maps from
 // integer/string types to primitives/enums/pointers to messages.
-func (j *JSONPb) marshalNonProtoField(v interface{}) ([]byte, error) {
+func (j *JSONPb) marshalNonProtoField(ctx context.Context, v interface{}) ([]byte, error) {
 	if v == nil {
 		return []byte("null"), nil
 	}
@@ -103,7 +104,7 @@ func (j *JSONPb) marshalNonProtoField(v interface{}) ([]byte, error) {
 						return nil, err
 					}
 				}
-				if err = j.marshalTo(&buf, rv.Index(i).Interface().(proto.Message)); err != nil {
+				if err = j.marshalTo(ctx, &buf, rv.Index(i).Interface().(proto.Message)); err != nil {
 					return nil, err
 				}
 			}
@@ -149,7 +150,7 @@ func (j *JSONPb) marshalNonProtoField(v interface{}) ([]byte, error) {
 	if rv.Kind() == reflect.Map {
 		m := make(map[string]*json.RawMessage)
 		for _, k := range rv.MapKeys() {
-			buf, err := j.Marshal(rv.MapIndex(k).Interface())
+			buf, err := j.Marshal(ctx, rv.MapIndex(k).Interface())
 			if err != nil {
 				return nil, err
 			}
@@ -167,7 +168,7 @@ func (j *JSONPb) marshalNonProtoField(v interface{}) ([]byte, error) {
 }
 
 // Unmarshal unmarshals JSON "data" into "v"
-func (j *JSONPb) Unmarshal(data []byte, v interface{}) error {
+func (j *JSONPb) Unmarshal(ctx context.Context, data []byte, v interface{}) error {
 	return unmarshalJSONPb(data, j.UnmarshalOptions, v)
 }
 
@@ -189,14 +190,14 @@ type DecoderWrapper struct {
 
 // Decode wraps the embedded decoder's Decode method to support
 // protos using a jsonpb.Unmarshaler.
-func (d DecoderWrapper) Decode(v interface{}) error {
+func (d DecoderWrapper) Decode(_ context.Context, v interface{}) error {
 	return decodeJSONPb(d.Decoder, d.UnmarshalOptions, v)
 }
 
 // NewEncoder returns an Encoder which writes JSON stream into "w".
 func (j *JSONPb) NewEncoder(w io.Writer) Encoder {
-	return EncoderFunc(func(v interface{}) error {
-		if err := j.marshalTo(w, v); err != nil {
+	return EncoderFunc(func(ctx context.Context, v interface{}) error {
+		if err := j.marshalTo(ctx, w, v); err != nil {
 			return err
 		}
 		// mimic json.Encoder by adding a newline (makes output

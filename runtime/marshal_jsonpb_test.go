@@ -2,6 +2,7 @@ package runtime_test
 
 import (
 	"bytes"
+	"context"
 	"reflect"
 	"strconv"
 	"strings"
@@ -109,7 +110,7 @@ func TestJSONPbMarshal(t *testing.T) {
 					UseEnumNumbers:  spec.useEnumNumbers,
 				},
 			}
-			buf, err := m.Marshal(&msg)
+			buf, err := m.Marshal(context.Background(), &msg)
 			if err != nil {
 				t.Errorf("m.Marshal(%v) failed with %v; want success; spec=%v", &msg, err, spec)
 			}
@@ -133,7 +134,7 @@ func TestJSONPbMarshalFields(t *testing.T) {
 	var m runtime.JSONPb
 	m.UseEnumNumbers = true // builtin fixtures include an enum, expected to be marshaled as int
 	for _, spec := range builtinFieldFixtures {
-		buf, err := m.Marshal(spec.data)
+		buf, err := m.Marshal(context.Background(), spec.data)
 		if err != nil {
 			t.Errorf("m.Marshal(%#v) failed with %v; want success", spec.data, err)
 		}
@@ -144,7 +145,7 @@ func TestJSONPbMarshalFields(t *testing.T) {
 
 	nums := []examplepb.NumericEnum{examplepb.NumericEnum_ZERO, examplepb.NumericEnum_ONE}
 
-	buf, err := m.Marshal(nums)
+	buf, err := m.Marshal(context.Background(), nums)
 	if err != nil {
 		t.Errorf("m.Marshal(%#v) failed with %v; want success", nums, err)
 	}
@@ -153,7 +154,7 @@ func TestJSONPbMarshalFields(t *testing.T) {
 	}
 
 	m.UseEnumNumbers = false
-	buf, err = m.Marshal(examplepb.NumericEnum_ONE)
+	buf, err = m.Marshal(context.Background(), examplepb.NumericEnum_ONE)
 	if err != nil {
 		t.Errorf("m.Marshal(%#v) failed with %v; want success", examplepb.NumericEnum_ONE, err)
 	}
@@ -161,7 +162,7 @@ func TestJSONPbMarshalFields(t *testing.T) {
 		t.Errorf("m.Marshal(%#v) = %q; want %q", examplepb.NumericEnum_ONE, got, want)
 	}
 
-	buf, err = m.Marshal(nums)
+	buf, err = m.Marshal(context.Background(), nums)
 	if err != nil {
 		t.Errorf("m.Marshal(%#v) failed with %v; want success", nums, err)
 	}
@@ -216,7 +217,7 @@ func TestJSONPbUnmarshal(t *testing.T) {
 			}
 		}`,
 	} {
-		if err := m.Unmarshal([]byte(data), &got); err != nil {
+		if err := m.Unmarshal(context.Background(), []byte(data), &got); err != nil {
 			t.Errorf("case %d: m.Unmarshal(%q, &got) failed with %v; want success", i, data, err)
 		}
 
@@ -253,7 +254,7 @@ func TestJSONPbUnmarshalFields(t *testing.T) {
 		}
 
 		dest := reflect.New(reflect.TypeOf(fixt.data))
-		if err := m.Unmarshal([]byte(fixt.json), dest.Interface()); err != nil {
+		if err := m.Unmarshal(context.Background(), []byte(fixt.json), dest.Interface()); err != nil {
 			t.Errorf("m.Unmarshal(%q, %T) failed with %v; want success", fixt.json, dest.Interface(), err)
 		}
 		if diff := cmp.Diff(dest.Elem().Interface(), fixt.data, protocmp.Transform()); diff != "" {
@@ -352,7 +353,7 @@ func TestJSONPbEncoder(t *testing.T) {
 
 		var buf bytes.Buffer
 		enc := m.NewEncoder(&buf)
-		if err := enc.Encode(&msg); err != nil {
+		if err := enc.Encode(context.Background(), &msg); err != nil {
 			t.Errorf("enc.Encode(%v) failed with %v; want success; spec=%v", &msg, err, spec)
 		}
 
@@ -375,7 +376,7 @@ func TestJSONPbEncoderFields(t *testing.T) {
 	for _, fixt := range fieldFixtures {
 		var buf bytes.Buffer
 		enc := m.NewEncoder(&buf)
-		if err := enc.Encode(fixt.data); err != nil {
+		if err := enc.Encode(context.Background(), fixt.data); err != nil {
 			t.Errorf("enc.Encode(%#v) failed with %v; want success", fixt.data, err)
 		}
 		if got, want := buf.String(), fixt.json+string(m.Delimiter()); got != want {
@@ -384,7 +385,7 @@ func TestJSONPbEncoderFields(t *testing.T) {
 	}
 
 	m.UseEnumNumbers = true
-	buf, err := m.Marshal(examplepb.NumericEnum_ONE)
+	buf, err := m.Marshal(context.Background(), examplepb.NumericEnum_ONE)
 	if err != nil {
 		t.Errorf("m.Marshal(%#v) failed with %v; want success", examplepb.NumericEnum_ONE, err)
 	}
@@ -441,7 +442,7 @@ func TestJSONPbDecoder(t *testing.T) {
 	} {
 		r := strings.NewReader(data)
 		dec := m.NewDecoder(r)
-		if err := dec.Decode(&got); err != nil {
+		if err := dec.Decode(context.Background(), &got); err != nil {
 			t.Errorf("m.Unmarshal(&got) failed with %v; want success; data=%q", err, data)
 		}
 
@@ -478,7 +479,7 @@ func TestJSONPbDecoderFields(t *testing.T) {
 
 		dest := reflect.New(reflect.TypeOf(fixt.data))
 		dec := m.NewDecoder(strings.NewReader(fixt.json))
-		if err := dec.Decode(dest.Interface()); err != nil {
+		if err := dec.Decode(context.Background(), dest.Interface()); err != nil {
 			t.Errorf("dec.Decode(%T) failed with %v; want success; input = %q", dest.Interface(), err, fixt.json)
 		}
 		if got, want := dest.Elem().Interface(), fixt.data; !reflect.DeepEqual(got, want) {
@@ -503,7 +504,7 @@ func TestJSONPbDecoderUnknownField(t *testing.T) {
 
 	r := strings.NewReader(data)
 	dec := m.NewDecoder(r)
-	if err := dec.Decode(&got); err == nil {
+	if err := dec.Decode(context.Background(), &got); err == nil {
 		t.Errorf("m.Unmarshal(&got) not failed; want `unknown field` error; data=%q", data)
 	}
 }
@@ -673,7 +674,7 @@ func TestJSONPbUnmarshalNullField(t *testing.T) {
 
 	const json = `{"foo": null}`
 	marshaler := &runtime.JSONPb{}
-	if err := marshaler.Unmarshal([]byte(json), &out); err != nil {
+	if err := marshaler.Unmarshal(context.Background(), []byte(json), &out); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 
@@ -699,7 +700,7 @@ func TestJSONPbMarshalResponseBodies(t *testing.T) {
 			},
 			verifier: func(t *testing.T, input interface{}, json []byte) {
 				var out examplepb.ResponseBodyOut
-				err := marshaler.Unmarshal(json, &out)
+				err := marshaler.Unmarshal(context.Background(), json, &out)
 				if err != nil {
 					t.Fatalf("unexpected error: %v", err)
 				}
@@ -714,7 +715,7 @@ func TestJSONPbMarshalResponseBodies(t *testing.T) {
 			input:           &examplepb.ResponseBodyOut{},
 			verifier: func(t *testing.T, input interface{}, json []byte) {
 				var out examplepb.ResponseBodyOut
-				err := marshaler.Unmarshal(json, &out)
+				err := marshaler.Unmarshal(context.Background(), json, &out)
 				if err != nil {
 					t.Fatalf("unexpected error: %v", err)
 				}
@@ -728,7 +729,7 @@ func TestJSONPbMarshalResponseBodies(t *testing.T) {
 			input: &examplepb.RepeatedResponseBodyOut_Response{},
 			verifier: func(t *testing.T, input interface{}, json []byte) {
 				var out examplepb.RepeatedResponseBodyOut_Response
-				err := marshaler.Unmarshal(json, &out)
+				err := marshaler.Unmarshal(context.Background(), json, &out)
 				if err != nil {
 					t.Fatalf("unexpected error: %v", err)
 				}
@@ -743,7 +744,7 @@ func TestJSONPbMarshalResponseBodies(t *testing.T) {
 			input:           &examplepb.RepeatedResponseBodyOut_Response{},
 			verifier: func(t *testing.T, input interface{}, json []byte) {
 				var out examplepb.RepeatedResponseBodyOut_Response
-				err := marshaler.Unmarshal(json, &out)
+				err := marshaler.Unmarshal(context.Background(), json, &out)
 				if err != nil {
 					t.Fatalf("unexpected error: %v", err)
 				}
@@ -757,7 +758,7 @@ func TestJSONPbMarshalResponseBodies(t *testing.T) {
 			input: ([]*examplepb.RepeatedResponseBodyOut_Response)(nil),
 			verifier: func(t *testing.T, input interface{}, json []byte) {
 				var out []*examplepb.RepeatedResponseBodyOut_Response
-				err := marshaler.Unmarshal(json, &out)
+				err := marshaler.Unmarshal(context.Background(), json, &out)
 				if err != nil {
 					t.Fatalf("unexpected error: %v", err)
 				}
@@ -772,7 +773,7 @@ func TestJSONPbMarshalResponseBodies(t *testing.T) {
 			input:           ([]*examplepb.RepeatedResponseBodyOut_Response)(nil),
 			verifier: func(t *testing.T, _ interface{}, json []byte) {
 				var out []*examplepb.RepeatedResponseBodyOut_Response
-				err := marshaler.Unmarshal(json, &out)
+				err := marshaler.Unmarshal(context.Background(), json, &out)
 				if err != nil {
 					t.Fatalf("unexpected error: %v", err)
 				}
@@ -786,7 +787,7 @@ func TestJSONPbMarshalResponseBodies(t *testing.T) {
 			input: []*examplepb.RepeatedResponseBodyOut_Response{},
 			verifier: func(t *testing.T, input interface{}, json []byte) {
 				var out []*examplepb.RepeatedResponseBodyOut_Response
-				err := marshaler.Unmarshal(json, &out)
+				err := marshaler.Unmarshal(context.Background(), json, &out)
 				if err != nil {
 					t.Fatalf("unexpected error: %v", err)
 				}
@@ -800,7 +801,7 @@ func TestJSONPbMarshalResponseBodies(t *testing.T) {
 			input: []string{"something"},
 			verifier: func(t *testing.T, input interface{}, json []byte) {
 				var out []string
-				err := marshaler.Unmarshal(json, &out)
+				err := marshaler.Unmarshal(context.Background(), json, &out)
 				if err != nil {
 					t.Fatalf("unexpected error: %v", err)
 				}
@@ -814,7 +815,7 @@ func TestJSONPbMarshalResponseBodies(t *testing.T) {
 			input: []string{},
 			verifier: func(t *testing.T, input interface{}, json []byte) {
 				var out []string
-				err := marshaler.Unmarshal(json, &out)
+				err := marshaler.Unmarshal(context.Background(), json, &out)
 				if err != nil {
 					t.Fatalf("unexpected error: %v", err)
 				}
@@ -828,7 +829,7 @@ func TestJSONPbMarshalResponseBodies(t *testing.T) {
 			input: ([]string)(nil),
 			verifier: func(t *testing.T, input interface{}, json []byte) {
 				var out []string
-				err := marshaler.Unmarshal(json, &out)
+				err := marshaler.Unmarshal(context.Background(), json, &out)
 				if err != nil {
 					t.Fatalf("unexpected error: %v", err)
 				}
@@ -843,7 +844,7 @@ func TestJSONPbMarshalResponseBodies(t *testing.T) {
 			input:           ([]string)(nil),
 			verifier: func(t *testing.T, _ interface{}, json []byte) {
 				var out []string
-				err := marshaler.Unmarshal(json, &out)
+				err := marshaler.Unmarshal(context.Background(), json, &out)
 				if err != nil {
 					t.Fatalf("unexpected error: %v", err)
 				}
@@ -863,7 +864,7 @@ func TestJSONPbMarshalResponseBodies(t *testing.T) {
 			},
 			verifier: func(t *testing.T, input interface{}, json []byte) {
 				var out []*examplepb.RepeatedResponseBodyOut_Response
-				err := marshaler.Unmarshal(json, &out)
+				err := marshaler.Unmarshal(context.Background(), json, &out)
 				if err != nil {
 					t.Fatalf("unexpected error: %v", err)
 				}
@@ -884,7 +885,7 @@ func TestJSONPbMarshalResponseBodies(t *testing.T) {
 			},
 			verifier: func(t *testing.T, input interface{}, json []byte) {
 				var out []*examplepb.RepeatedResponseBodyOut_Response
-				err := marshaler.Unmarshal(json, &out)
+				err := marshaler.Unmarshal(context.Background(), json, &out)
 				if err != nil {
 					t.Fatalf("unexpected error: %v", err)
 				}
@@ -903,7 +904,7 @@ func TestJSONPbMarshalResponseBodies(t *testing.T) {
 				},
 			}
 			val := spec.input
-			buf, err := m.Marshal(val)
+			buf, err := m.Marshal(context.Background(), val)
 			if err != nil {
 				t.Errorf("m.Marshal(%v) failed with %v; want success; spec=%v", val, err, spec)
 			}

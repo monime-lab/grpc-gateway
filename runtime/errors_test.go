@@ -86,7 +86,7 @@ func TestDefaultHTTPError(t *testing.T) {
 			}
 
 			var st statuspb.Status
-			if err := marshaler.Unmarshal(w.Body.Bytes(), &st); err != nil {
+			if err := marshaler.Unmarshal(context.Background(), w.Body.Bytes(), &st); err != nil {
 				t.Errorf("marshaler.Unmarshal(%q, &body) failed with %v; want success", w.Body.Bytes(), err)
 				return
 			}

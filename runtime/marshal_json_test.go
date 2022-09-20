@@ -2,6 +2,7 @@ package runtime_test
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"reflect"
 	"strings"
@@ -123,7 +124,7 @@ func TestJSONBuiltinEncoder(t *testing.T) {
 
 	var buf bytes.Buffer
 	enc := m.NewEncoder(&buf)
-	if err := enc.Encode(msg); err != nil {
+	if err := enc.Encode(context.Background(), msg); err != nil {
 		t.Errorf("enc.Encode(%v) failed with %v; want success", msg, err)
 	}
 
@@ -141,7 +142,7 @@ func TestJSONBuiltinEncoderFields(t *testing.T) {
 	for _, fixt := range builtinFieldFixtures {
 		var buf bytes.Buffer
 		enc := m.NewEncoder(&buf)
-		if err := enc.Encode(fixt.data); err != nil {
+		if err := enc.Encode(context.Background(), fixt.data); err != nil {
 			t.Errorf("enc.Encode(%#v) failed with %v; want success", fixt.data, err)
 		}
 
@@ -160,7 +161,7 @@ func TestJSONBuiltinDecoder(t *testing.T) {
 	)
 	r := strings.NewReader(data)
 	dec := m.NewDecoder(r)
-	if err := dec.Decode(got); err != nil {
+	if err := dec.Decode(context.Background(), got); err != nil {
 		t.Errorf("m.Unmarshal(got) failed with %v; want success", err)
 	}
 
@@ -178,7 +179,7 @@ func TestJSONBuiltinDecoderFields(t *testing.T) {
 		r := strings.NewReader(fixt.json)
 		dec := m.NewDecoder(r)
 		dest := alloc(reflect.TypeOf(fixt.data))
-		if err := dec.Decode(dest.Interface()); err != nil {
+		if err := dec.Decode(context.Background(), dest.Interface()); err != nil {
 			t.Errorf("dec.Decode(dest) failed with %v; want success; data = %q", err, fixt.json)
 		}
 

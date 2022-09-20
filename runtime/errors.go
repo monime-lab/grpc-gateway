@@ -112,7 +112,7 @@ func DefaultHTTPErrorHandler(ctx context.Context, mux *ServeMux, marshaler Marsh
 		w.Header().Set("WWW-Authenticate", s.Message())
 	}
 
-	buf, merr := marshaler.Marshal(pb)
+	buf, merr := marshaler.Marshal(ctx, pb)
 	if merr != nil {
 		grpclog.Infof("Failed to marshal error message %q: %v", s, merr)
 		w.WriteHeader(http.StatusInternalServerError)

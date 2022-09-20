@@ -1,6 +1,7 @@
 package runtime
 
 import (
+	"context"
 	"io"
 
 	"errors"
@@ -18,7 +19,7 @@ func (*ProtoMarshaller) ContentType(_ interface{}) string {
 }
 
 // Marshal marshals "value" into Proto
-func (*ProtoMarshaller) Marshal(value interface{}) ([]byte, error) {
+func (*ProtoMarshaller) Marshal(ctx context.Context, value interface{}) ([]byte, error) {
 	message, ok := value.(proto.Message)
 	if !ok {
 		return nil, errors.New("unable to marshal non proto field")
@@ -27,7 +28,7 @@ func (*ProtoMarshaller) Marshal(value interface{}) ([]byte, error) {
 }
 
 // Unmarshal unmarshals proto "data" into "value"
-func (*ProtoMarshaller) Unmarshal(data []byte, value interface{}) error {
+func (*ProtoMarshaller) Unmarshal(context context.Context, data []byte, value interface{}) error {
 	message, ok := value.(proto.Message)
 	if !ok {
 		return errors.New("unable to unmarshal non proto field")
@@ -37,19 +38,19 @@ func (*ProtoMarshaller) Unmarshal(data []byte, value interface{}) error {
 
 // NewDecoder returns a Decoder which reads proto stream from "reader".
 func (marshaller *ProtoMarshaller) NewDecoder(reader io.Reader) Decoder {
-	return DecoderFunc(func(value interface{}) error {
+	return DecoderFunc(func(context context.Context, value interface{}) error {
 		buffer, err := ioutil.ReadAll(reader)
 		if err != nil {
 			return err
 		}
-		return marshaller.Unmarshal(buffer, value)
+		return marshaller.Unmarshal(context, buffer, value)
 	})
 }
 
 // NewEncoder returns an Encoder which writes proto stream into "writer".
 func (marshaller *ProtoMarshaller) NewEncoder(writer io.Writer) Encoder {
-	return EncoderFunc(func(value interface{}) error {
-		buffer, err := marshaller.Marshal(value)
+	return EncoderFunc(func(ctx context.Context, value interface{}) error {
+		buffer, err := marshaller.Marshal(ctx, value)
 		if err != nil {
 			return err
 		}

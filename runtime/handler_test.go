@@ -122,7 +122,7 @@ func TestForwardResponseStream(t *testing.T) {
 					}
 					delimiter := marshaler.Delimiter()
 					st := status.Convert(msg.err)
-					b, err := marshaler.Marshal(map[string]proto.Message{
+					b, err := marshaler.Marshal(context.Background(), map[string]proto.Message{
 						"error": st.Proto(),
 					})
 					if err != nil {
@@ -146,9 +146,9 @@ func TestForwardResponseStream(t *testing.T) {
 						t.Errorf("stream responseBody failed %v", err)
 					}
 
-					b, err = marshaler.Marshal(map[string]interface{}{"result": rb.XXX_ResponseBody()})
+					b, err = marshaler.Marshal(context.Background(), map[string]interface{}{"result": rb.XXX_ResponseBody()})
 				} else {
-					b, err = marshaler.Marshal(map[string]interface{}{"result": msg.pb})
+					b, err = marshaler.Marshal(context.Background(), map[string]interface{}{"result": msg.pb})
 				}
 
 				if err != nil {
@@ -170,11 +170,15 @@ type CustomMarshaler struct {
 	m *runtime.JSONPb
 }
 
-func (c *CustomMarshaler) Marshal(v interface{}) ([]byte, error)      { return c.m.Marshal(v) }
-func (c *CustomMarshaler) Unmarshal(data []byte, v interface{}) error { return c.m.Unmarshal(data, v) }
-func (c *CustomMarshaler) NewDecoder(r io.Reader) runtime.Decoder     { return c.m.NewDecoder(r) }
-func (c *CustomMarshaler) NewEncoder(w io.Writer) runtime.Encoder     { return c.m.NewEncoder(w) }
-func (c *CustomMarshaler) ContentType(v interface{}) string           { return "Custom-Content-Type" }
+func (c *CustomMarshaler) Marshal(ctx context.Context, v interface{}) ([]byte, error) {
+	return c.m.Marshal(ctx, v)
+}
+func (c *CustomMarshaler) Unmarshal(ctx context.Context, data []byte, v interface{}) error {
+	return c.m.Unmarshal(ctx, data, v)
+}
+func (c *CustomMarshaler) NewDecoder(r io.Reader) runtime.Decoder { return c.m.NewDecoder(r) }
+func (c *CustomMarshaler) NewEncoder(w io.Writer) runtime.Encoder { return c.m.NewEncoder(w) }
+func (c *CustomMarshaler) ContentType(v interface{}) string       { return "Custom-Content-Type" }
 
 func TestForwardResponseStreamCustomMarshaler(t *testing.T) {
 	type msg struct {
@@ -252,7 +256,7 @@ func TestForwardResponseStreamCustomMarshaler(t *testing.T) {
 				if msg.err != nil {
 					t.Skip("checking erorr encodings")
 				}
-				b, err := marshaler.Marshal(map[string]proto.Message{"result": msg.pb})
+				b, err := marshaler.Marshal(context.Background(), map[string]proto.Message{"result": msg.pb})
 				if err != nil {
 					t.Errorf("marshaler.Marshal() failed %v", err)
 				}
@@ -308,7 +312,7 @@ func TestForwardResponseMessage(t *testing.T) {
 			}
 			w.Body.Close()
 
-			want, err := tt.marshaler.Marshal(msg)
+			want, err := tt.marshaler.Marshal(ctx, msg)
 			if err != nil {
 				t.Errorf("marshaler.Marshal() failed %v", err)
 			}

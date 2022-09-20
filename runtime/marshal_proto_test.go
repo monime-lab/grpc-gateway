@@ -2,6 +2,7 @@ package runtime_test
 
 import (
 	"bytes"
+	"context"
 	"testing"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
@@ -39,14 +40,14 @@ func TestProtoMarshalUnmarshal(t *testing.T) {
 	marshaller := runtime.ProtoMarshaller{}
 
 	// Marshal
-	buffer, err := marshaller.Marshal(message)
+	buffer, err := marshaller.Marshal(context.Background(), message)
 	if err != nil {
 		t.Fatalf("Marshalling returned error: %s", err.Error())
 	}
 
 	// Unmarshal
 	unmarshalled := &examplepb.ABitOfEverything{}
-	err = marshaller.Unmarshal(buffer, unmarshalled)
+	err = marshaller.Unmarshal(context.Background(), buffer, unmarshalled)
 	if err != nil {
 		t.Fatalf("Unmarshalling returned error: %s", err.Error())
 	}
@@ -69,14 +70,14 @@ func TestProtoEncoderDecodert(t *testing.T) {
 	decoder := marshaller.NewDecoder(&buf)
 
 	// Encode
-	err := encoder.Encode(message)
+	err := encoder.Encode(context.Background(), message)
 	if err != nil {
 		t.Fatalf("Encoding returned error: %s", err.Error())
 	}
 
 	// Decode
 	unencoded := &examplepb.ABitOfEverything{}
-	err = decoder.Decode(unencoded)
+	err = decoder.Decode(context.Background(), unencoded)
 	if err != nil {
 		t.Fatalf("Unmarshalling returned error: %s", err.Error())
 	}

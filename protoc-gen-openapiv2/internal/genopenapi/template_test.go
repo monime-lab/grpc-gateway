@@ -2,6 +2,7 @@ package genopenapi
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -1871,7 +1872,7 @@ func TestApplyTemplateExtensions(t *testing.T) {
 		}
 		{
 			var got []string
-			err = marshaler.Unmarshal(result.extensions[0].value, &got)
+			err = marshaler.Unmarshal(context.Background(), result.extensions[0].value, &got)
 			if err != nil {
 				t.Fatalf("marshaler.Unmarshal failed: %v", err)
 			}
@@ -1882,7 +1883,7 @@ func TestApplyTemplateExtensions(t *testing.T) {
 		}
 		{
 			var got string
-			err = marshaler.Unmarshal(result.extensions[1].value, &got)
+			err = marshaler.Unmarshal(context.Background(), result.extensions[1].value, &got)
 			if err != nil {
 				t.Fatalf("marshaler.Unmarshal failed: %v", err)
 			}

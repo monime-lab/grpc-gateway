@@ -1,6 +1,7 @@
 package runtime
 
 import (
+	"context"
 	"encoding/json"
 	"io"
 )
@@ -31,15 +32,31 @@ func (j *JSONBuiltin) Unmarshal(data []byte, v interface{}) error {
 
 // NewDecoder returns a Decoder which reads JSON stream from "r".
 func (j *JSONBuiltin) NewDecoder(r io.Reader) Decoder {
-	return json.NewDecoder(r)
+	return &jsonDecoder{r}
 }
 
 // NewEncoder returns an Encoder which writes JSON stream into "w".
 func (j *JSONBuiltin) NewEncoder(w io.Writer) Encoder {
-	return json.NewEncoder(w)
+	return &jsonEncoder{w}
 }
 
 // Delimiter for newline encoded JSON streams.
 func (j *JSONBuiltin) Delimiter() []byte {
 	return []byte("\n")
+}
+
+type jsonEncoder struct {
+	w io.Writer
+}
+
+func (j *jsonEncoder) Encode(_ context.Context, v interface{}) error {
+	return json.NewEncoder(j.w).Encode(v)
+}
+
+type jsonDecoder struct {
+	r io.Reader
+}
+
+func (j *jsonDecoder) Decode(_ context.Context, v interface{}) error {
+	return json.NewDecoder(j.r).Decode(v)
 }

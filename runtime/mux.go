@@ -243,8 +243,7 @@ func WithHealthEndpointAt(healthCheckClient grpc_health_v1.HealthClient, endpoin
 					s.errorHandler(r.Context(), s, outboundMarshaler, w, r, err)
 					return
 				}
-
-				_ = outboundMarshaler.NewEncoder(w).Encode(resp)
+				_ = outboundMarshaler.NewEncoder(w).Encode(r.Context(), resp)
 			})
 	}
 }

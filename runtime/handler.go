@@ -68,7 +68,7 @@ func ForwardResponseStream(ctx context.Context, mux *ServeMux, marshaler Marshal
 		httpBody, isHTTPBody := resp.(*httpbody.HttpBody)
 		switch {
 		case resp == nil:
-			buf, err = marshaler.Marshal(errorChunk(status.New(codes.Internal, "empty response")))
+			buf, err = marshaler.Marshal(ctx, errorChunk(status.New(codes.Internal, "empty response")))
 		case isHTTPBody:
 			buf = httpBody.GetData()
 		default:
@@ -77,7 +77,7 @@ func ForwardResponseStream(ctx context.Context, mux *ServeMux, marshaler Marshal
 				result["result"] = rb.XXX_ResponseBody()
 			}
 
-			buf, err = marshaler.Marshal(result)
+			buf, err = marshaler.Marshal(ctx, result)
 		}
 
 		if err != nil {
@@ -163,9 +163,9 @@ func ForwardResponseMessage(ctx context.Context, mux *ServeMux, marshaler Marsha
 	var buf []byte
 	var err error
 	if rb, ok := resp.(responseBody); ok {
-		buf, err = marshaler.Marshal(rb.XXX_ResponseBody())
+		buf, err = marshaler.Marshal(ctx, rb.XXX_ResponseBody())
 	} else {
-		buf, err = marshaler.Marshal(resp)
+		buf, err = marshaler.Marshal(ctx, resp)
 	}
 	if err != nil {
 		grpclog.Infof("Marshal error: %v", err)
@@ -207,7 +207,7 @@ func handleForwardResponseStreamError(ctx context.Context, wroteHeader bool, mar
 		w.Header().Set("Content-Type", marshaler.ContentType(msg))
 		w.WriteHeader(HTTPStatusFromCode(st.Code()))
 	}
-	buf, merr := marshaler.Marshal(msg)
+	buf, merr := marshaler.Marshal(ctx, msg)
 	if merr != nil {
 		grpclog.Infof("Failed to marshal an error: %v", merr)
 		return

@@ -1,6 +1,7 @@
 package runtime_test
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -94,11 +95,11 @@ func TestMarshalerForRequest(t *testing.T) {
 type dummyMarshaler int
 
 func (dummyMarshaler) ContentType(_ interface{}) string { return "" }
-func (dummyMarshaler) Marshal(interface{}) ([]byte, error) {
+func (dummyMarshaler) Marshal(context.Context, interface{}) ([]byte, error) {
 	return nil, errors.New("not implemented")
 }
 
-func (dummyMarshaler) Unmarshal([]byte, interface{}) error {
+func (dummyMarshaler) Unmarshal(context.Context, []byte, interface{}) error {
 	return errors.New("not implemented")
 }
 
@@ -115,12 +116,12 @@ func (m dummyMarshaler) GoString() string {
 
 type dummyDecoder struct{}
 
-func (dummyDecoder) Decode(interface{}) error {
+func (dummyDecoder) Decode(context.Context, interface{}) error {
 	return errors.New("not implemented")
 }
 
 type dummyEncoder struct{}
 
-func (dummyEncoder) Encode(interface{}) error {
+func (dummyEncoder) Encode(context.Context, interface{}) error {
 	return errors.New("not implemented")
 }
